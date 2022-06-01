@@ -10,23 +10,37 @@
     <Border Padding="2">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
+            
             <StackPanel HorizontalAlignment="Center" Grid.Column="1">
                 <TextBlock Margin="0 0 0 10" FontWeight="Bold" Text="Igra življenja"/>
                 
                 <!--Število vrstic-->
                 <TextBlock Margin="0 0 0 2" Text="Število vrstic"/>
-                <TextBox Padding="2" TextAlignment="Center"/>
+                <TextBox x:Name="RowsText" Text="10" Padding="2" TextAlignment="Center"/>
 
                 <!--Število stolpcev-->
                 <TextBlock Margin="0 10 0 2" Text="Število stolpcev"/>
-                <TextBox Padding="2" TextAlignment="Center"/>
+                <TextBox x:Name="ColumnText" Text="10" Padding="2" TextAlignment="Center"/>
+                
+                <!--Hitrost animacije-->
+                <TextBlock Margin="0 10 0 2" Text="Hitrost animacije"/>
+                <ComboBox SelectedIndex="0" Margin="0 2 0 0">
+                    <ComboBoxItem>1 FPS</ComboBoxItem>
+                    <ComboBoxItem>0,5 FPS</ComboBoxItem>
+                    <ComboBoxItem>0,2 FPS</ComboBoxItem>
+                </ComboBox>
 
-                <Button Margin="0 10 0 0" Content="Potrdi"/>
-
+                <!--Gumb za potrditev-->
+                <Button x:Name="ConfirmButton" Click="ConfirmButton_Click" Margin="0 10 0 0" Content="Potrdi"/>
+                
             </StackPanel>
+            
+            
+            <GridSplitter Grid.Column="0" Background="Silver" Width="1"/>
         </Grid>
     </Border>
 </Window>
