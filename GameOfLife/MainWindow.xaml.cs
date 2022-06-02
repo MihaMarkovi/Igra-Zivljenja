@@ -32,7 +32,7 @@ namespace GameOfLife
             //MessageBox.Show($"Izbral si { this.RowsText.Text} vrstic in {this.ColumnText.Text} stolpcev");
             try
             {
-                animation.DrawRectangles(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
+                animation.DrawTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
             }
             catch
             {

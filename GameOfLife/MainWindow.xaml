@@ -29,7 +29,9 @@
                 
                 <!--Hitrost animacije-->
                 <TextBlock Margin="0 10 0 2" HorizontalAlignment="Center" Text="Hitrost animacije"/>
-                <ComboBox SelectedIndex="0" Margin="0 2 0 0">
+                <ComboBox SelectedIndex="2" Margin="0 2 0 0">
+                    <ComboBoxItem>5 FPS</ComboBoxItem>
+                    <ComboBoxItem>2 FPS</ComboBoxItem>
                     <ComboBoxItem>1 FPS</ComboBoxItem>
                     <ComboBoxItem>0,5 FPS</ComboBoxItem>
                     <ComboBoxItem>0,2 FPS</ComboBoxItem>

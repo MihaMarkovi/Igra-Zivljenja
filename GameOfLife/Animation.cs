@@ -15,12 +15,12 @@ namespace GameOfLife
 {
     internal class Animation
     {
-        private const int size = 8;
+        private const int size = 10;
         private const int space = 2;
 
         bool[,]? cells; 
 
-        public void DrawRectangles(Canvas MyCanvas, int rows, int columns)
+        public void DrawTable(Canvas MyCanvas, int rows, int columns)
         {
             MyCanvas.Children.Clear();
             cells = new bool[columns, rows];
