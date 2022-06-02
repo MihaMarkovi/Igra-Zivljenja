@@ -20,6 +20,8 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Animation animation = new Animation();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +29,15 @@ namespace GameOfLife
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"Izbral si { this.RowsText.Text} vrstic in {this.ColumnText.Text} stolpcev");
+            //MessageBox.Show($"Izbral si { this.RowsText.Text} vrstic in {this.ColumnText.Text} stolpcev");
+            try
+            {
+                animation.DrawRectangles(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
+            }
+            catch
+            {
+                MyCanvas.Children.Clear();
+            }
         }
     }
 }
