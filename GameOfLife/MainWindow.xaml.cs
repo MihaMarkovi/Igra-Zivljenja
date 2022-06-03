@@ -46,9 +46,32 @@ namespace GameOfLife
             if (ConfirmButton.Content.ToString() == "Začni animacijo")
             {
                 ConfirmButton.Content = "Ustavi animacijo";
-                while(ConfirmButton.Content.ToString() == "Ustavi animacijo")
+                async Task PutTaskDelay()
                 {
-                    await Task.Delay(100);
+                    int x=100;
+                    switch (FPS.SelectedIndex.ToString())
+                    {
+                        case "0":
+                            x = 100;
+                            break;
+                        case "1":
+                            x = 200;
+                            break;
+                        case "2":
+                            x = 1000;
+                            break;
+                        case "3":
+                            x = 2000;
+                            break;
+                        case "4":
+                            x = 4000;
+                            break;
+                    }
+                    await Task.Delay(x);
+                }
+                while (ConfirmButton.Content.ToString() == "Ustavi animacijo")
+                {
+                    await PutTaskDelay();
                     animation.Main(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
                 }
             }
