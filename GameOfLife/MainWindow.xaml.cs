@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace GameOfLife
 {
@@ -31,7 +32,7 @@ namespace GameOfLife
             //MessageBox.Show($"Izbral si { this.RowsText.Text} vrstic in {this.ColumnText.Text} stolpcev");
             try
             {
-                animation.DrawTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
+                animation.ClearTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
             }
             catch
             {
@@ -40,9 +41,21 @@ namespace GameOfLife
 
         }
 
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        private async void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (ConfirmButton.Content.ToString() == "Začni animacijo")
+            {
+                ConfirmButton.Content = "Ustavi animacijo";
+                while(ConfirmButton.Content.ToString() == "Ustavi animacijo")
+                {
+                    await Task.Delay(100);
+                    animation.Main(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
+                }
+            }
+            else
+            {
+                ConfirmButton.Content = "Začni animacijo";
+            }
         }
     }
 }

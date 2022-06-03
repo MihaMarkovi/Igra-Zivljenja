@@ -21,11 +21,11 @@
                 
                 <!--Število vrstic-->
                 <TextBlock HorizontalAlignment="Center" Margin="0 0 0 2" Text="Število vrstic"/>
-                <TextBox TextChanged="DrawTable_TextChanged" x:Name="RowsText" Text="10" Padding="2" TextAlignment="Center"/>
+                <TextBox TextChanged="DrawTable_TextChanged" x:Name="RowsText" Text="30" Padding="2" TextAlignment="Center"/>
 
                 <!--Število stolpcev-->
                 <TextBlock HorizontalAlignment="Center" Margin="0 10 0 2" Text="Število stolpcev"/>
-                <TextBox TextChanged="DrawTable_TextChanged" x:Name="ColumnText" Text="10" Padding="2" TextAlignment="Center"/>
+                <TextBox TextChanged="DrawTable_TextChanged" x:Name="ColumnText" Text="30" Padding="2" TextAlignment="Center"/>
                 
                 <!--Hitrost animacije-->
                 <TextBlock Margin="0 10 0 2" HorizontalAlignment="Center" Text="Hitrost animacije"/>
@@ -37,7 +37,7 @@
                     <ComboBoxItem>0,2 FPS</ComboBoxItem>
                 </ComboBox>
 
-                <!--Gumb za potrditev-->
+                <!--Gumb za začetek -->
                 <Button x:Name="ConfirmButton" Click="ConfirmButton_Click" Margin="0 10 0 0" Content="Začni animacijo"/>
 
             </StackPanel>

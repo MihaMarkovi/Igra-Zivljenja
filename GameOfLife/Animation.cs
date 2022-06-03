@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Threading;
 
 
 namespace GameOfLife
@@ -18,9 +19,21 @@ namespace GameOfLife
         private const int size = 10;
         private const int space = 2;
 
-        bool[,]? cells; 
+        bool[,]? cells;
+        int[,]? sosedi;
 
-        public void DrawTable(Canvas MyCanvas, int rows, int columns)
+
+        public void Main(Canvas MyCanvas, int rows, int columns)
+        {
+            DrawTable(MyCanvas, rows, columns, cells);
+            //Thread.Sleep(1000);
+            sosedi = PreveriZivljenje(cells);
+            ZdruziSSosedi(ref cells, sosedi);
+            DrawTable(MyCanvas, rows, columns, cells);
+            
+        }
+
+        public void ClearTable(Canvas MyCanvas, int rows, int columns)
         {
             MyCanvas.Children.Clear();
             cells = new bool[columns, rows];
@@ -29,6 +42,7 @@ namespace GameOfLife
             {
                 for (int i = 0; i < cells.GetLength(0); i++)
                 {
+                    //ustvari kvadrat
                     Rectangle rectangle = new Rectangle
                     {
                         Height = size,
@@ -37,9 +51,57 @@ namespace GameOfLife
 
                     rectangle.MouseDown += Rectangle_MouseDown;
 
-                    rectangle.Fill = cells[i, j] ? Brushes.Red : Brushes.Green;
+                    //pobarvaj kvadrat
+                    if (cells[i, j])
+                    {
+                        rectangle.Fill = Brushes.Red;
+                    }
+                    else
+                    {
+                        rectangle.Fill = Brushes.Green;
+                    }
+
+                    //dodaj ga na kanvas
                     MyCanvas.Children.Add(rectangle);
 
+                    //uredi presledke
+                    Canvas.SetLeft(rectangle, i * (size + space));
+                    Canvas.SetTop(rectangle, j * (size + space));
+                }
+            }
+        }
+
+        public void DrawTable(Canvas MyCanvas, int rows, int columns, bool[,] cells)
+        {
+            MyCanvas.Children.Clear();
+
+            for (int j = 0; j < cells.GetLength(1); j++)
+            {
+                for (int i = 0; i < cells.GetLength(0); i++)
+                {
+                    //ustvari kvadrat
+                    Rectangle rectangle = new Rectangle
+                    {
+                        Height = size,
+                        Width = size,
+                    };
+
+                    rectangle.MouseDown += Rectangle_MouseDown;
+
+                    //pobarvaj kvadrat
+                    if (cells[i,j])
+                    {
+                        rectangle.Fill = Brushes.Red;
+                    }
+                    else
+                    {
+                        rectangle.Fill = Brushes.Green;
+                    }
+
+                    //dodaj ga na kanvas
+                    MyCanvas.Children.Add(rectangle);
+
+                    //uredi presledke
                     Canvas.SetLeft(rectangle, i * (size + space));
                     Canvas.SetTop(rectangle, j * (size + space));
                 }
@@ -63,6 +125,53 @@ namespace GameOfLife
 
             if (px < cells.GetLength(0) && py < cells.GetLength(1))
                 SwitchState(px, py);
+        }
+
+        static void ZdruziSSosedi(ref bool[,] cells, int[,] sosedi)
+        {
+            //Zamenjaj stanje celice, če je potrebno
+            for (int x = 0; x < sosedi.GetLength(0); x++)
+            {
+                for (int y = 0; y < sosedi.GetLength(1); y++)
+                {
+                    if (sosedi[x, y] < 2 && cells[x, y])
+                        cells[x, y] = false;
+                    if ((sosedi[x, y] == 2 || sosedi[x, y] == 3) && cells[x, y])
+                        cells[x, y] = true;
+                    if (sosedi[x, y] > 3 && cells[x, y])
+                        cells[x, y] = false;
+                    if (sosedi[x, y] == 3 && cells[x, y] == false)
+                        cells[x, y] = true;
+                }
+            }
+        }
+
+        static int[,] PreveriZivljenje(bool[,] cells)
+        {
+            int[,] sosedi = new int[cells.GetLength(0), cells.GetLength(1)];
+            int sosednjiZiv = 0;
+            for (int x = 0; x < cells.GetLength(0); x++)
+            {
+                for (int y = 0; y < cells.GetLength(1); y++)
+                {
+                    //Preveri celice okoli
+
+                    for (int i = -1; i < 2; i++)
+                    {
+                        for (int j = -1; j < 2; j++)
+                        {
+                            if ((i != 0 || j != 0) && x + i > -1 && y + j > -1 && x + i < cells.GetLength(0) && y + 1 < cells.GetLength(1))
+                                if (cells[x + i, y + j])
+                                    sosednjiZiv++;
+                        }
+                    }
+
+                    sosedi[x, y] = sosednjiZiv;
+                    sosednjiZiv = 0;
+                }
+            }
+
+            return sosedi;
         }
 
     }
