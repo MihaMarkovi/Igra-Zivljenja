@@ -18,7 +18,7 @@
 
             <StackPanel HorizontalAlignment="Center" Grid.Column="1">
                 <TextBlock Margin="0 0 0 10" FontWeight="Bold" Text="Igra življenja"/>
-                
+
                 <!--Število vrstic-->
                 <TextBlock HorizontalAlignment="Center" Margin="0 0 0 2" Text="Število vrstic"/>
                 <TextBox TextChanged="DrawTable_TextChanged" x:Name="RowsText" Text="30" Padding="2" TextAlignment="Center"/>

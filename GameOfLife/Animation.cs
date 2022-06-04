@@ -151,9 +151,9 @@ namespace GameOfLife
 
                     for (int i = -1; i < 2; i++)
                     {
-                        for (int j = -1; j < 2; j++)
+                        for (int j = -1; j < 2;j++)
                         {
-                            if ((i != 0 || j != 0) && x + i > -1 && y + j > -1 && x + i < cells.GetLength(0) && y + 1 < cells.GetLength(1))
+                            if ((i != 0 || j != 0) && x + i > -1 && y + j > -1 && x + i < cells.GetLength(0) && y + j < cells.GetLength(1))
                                 if (cells[x + i, y + j])
                                     sosednjiZiv++;
                         }
