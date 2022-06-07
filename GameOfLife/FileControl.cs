@@ -21,11 +21,51 @@ namespace GameOfLife
             return "None";
         }
 
-        public string ReadImportedFile(string path)
+        public void ReadImportedFile(string path, ref bool[,] cells)
         {
+            char[] tempRow;
+            int columns = 0, rows = 0;
+
+            //preštej število vrstic
             StreamReader sr = File.OpenText(path);
-            string row = sr.ReadLine();
-            return row;
+            string tempString = sr.ReadToEnd();
+            tempRow = tempString.ToCharArray();
+            foreach(char c in tempRow)
+            {
+                if(c == ',')
+                {
+                    columns++;
+                }
+            }
+            sr.Close();
+
+            //preštej število stolpcev
+            sr = File.OpenText(path);
+            tempString = sr.ReadLine();
+            tempRow = tempString.ToCharArray();
+            foreach(char c in tempRow)
+            {
+                if(c == '1' || c == '0')
+                    rows++;
+            }
+            sr.Close();
+
+            cells = new bool[columns, rows];
+
+            sr = File.OpenText(path);
+            for (int i = 0; i < cells.GetLength(0); i++)
+            {
+                string row = sr.ReadLine();
+                tempRow = row.ToCharArray();
+                for(int j = 0; j < tempRow.Length; j++)
+                {
+                    if (tempRow[j] == '0')
+                        cells[j, i] = false;
+                    else if (tempRow[j] == '1')
+                        cells[j, i] = true;
+                }
+
+            }
         }
 
         public void ExportFile(bool[,] grid)
@@ -41,8 +81,12 @@ namespace GameOfLife
                 {
                     for (int j = 0; j < grid.GetLength(1); j++)
                     {
-                        newFile.Write(grid[j, i]);
+                        if(grid[j,i] == true )
+                            newFile.Write("1");
+                        else
+                            newFile.Write("0");
                     }
+                    newFile.Write(',');
                     newFile.WriteLine();
                 }
                 newFile.Close();

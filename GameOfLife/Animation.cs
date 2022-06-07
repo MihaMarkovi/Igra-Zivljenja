@@ -9,6 +9,8 @@ namespace GameOfLife
 {
     internal class Animation
     {
+        FileControl fileControl = new FileControl();
+
         private const int size = 10;
         private const int space = 2;
 
@@ -23,6 +25,46 @@ namespace GameOfLife
             ZdruziSSosedi(ref cells, sosedi);
             DrawTable(MyCanvas, rows, columns, cells);
             
+        }
+
+        public void ImportTable(Canvas MyCanvas, int rows, int columns, string path)
+        {
+            MyCanvas.Children.Clear();
+            cells = new bool[columns, rows];
+
+            fileControl.ReadImportedFile(path, ref cells);
+
+            for (int j = 0; j < cells.GetLength(1); j++)
+            {
+                for (int i = 0; i < cells.GetLength(0); i++)
+                {
+                    //ustvari kvadrat
+                    Rectangle rectangle = new Rectangle
+                    {
+                        Height = size,
+                        Width = size,
+                    };
+
+                    rectangle.MouseDown += Rectangle_MouseDown;
+
+                    //pobarvaj kvadrat
+                    if (cells[i, j])
+                    {
+                        rectangle.Fill = Brushes.Red;
+                    }
+                    else
+                    {
+                        rectangle.Fill = Brushes.Green;
+                    }
+
+                    //dodaj ga na kanvas
+                    MyCanvas.Children.Add(rectangle);
+
+                    //uredi presledke
+                    Canvas.SetLeft(rectangle, i * (size + space));
+                    Canvas.SetTop(rectangle, j * (size + space));
+                }
+            }
         }
 
         public void ClearTable(Canvas MyCanvas, int rows, int columns)

@@ -18,7 +18,6 @@ namespace GameOfLife
         }
         private void DrawTable_TextChanged(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show($"Izbral si { this.RowsText.Text} vrstic in {this.ColumnText.Text} stolpcev");
             try
             {
                 animation.ClearTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
@@ -74,13 +73,16 @@ namespace GameOfLife
         {
             string file = fileControl.ImportFileName();
             if (file != "None")
-                ImportBox.Text = fileControl.ReadImportedFile(file);
+            {
+                animation.ImportTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text), file);
+            }
         }
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
             bool[,] grid = animation.cells;
             fileControl.ExportFile(grid);
+            MessageBox.Show("Datoteka izvožena na namizje");
         }
     }
 }
