@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace GameOfLife
@@ -9,6 +10,7 @@ namespace GameOfLife
     public partial class MainWindow : Window
     {
         private Animation animation = new Animation();
+        private FileControl fileControl = new FileControl();
 
         public MainWindow()
         {
@@ -66,6 +68,19 @@ namespace GameOfLife
             {
                 ConfirmButton.Content = "Začni animacijo";
             }
+        }
+
+        private void ImportButton_Click(object sender, RoutedEventArgs e)
+        {
+            string file = fileControl.ImportFileName();
+            if (file != "None")
+                ImportBox.Text = fileControl.ReadImportedFile(file);
+        }
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool[,] grid = animation.cells;
+            fileControl.ExportFile(grid);
         }
     }
 }

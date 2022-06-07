@@ -12,9 +12,8 @@ namespace GameOfLife
         private const int size = 10;
         private const int space = 2;
 
-        bool[,]? cells;
+        public bool[,]? cells;
         int[,]? sosedi;
-
 
         public void Main(Canvas MyCanvas, int rows, int columns)
         {

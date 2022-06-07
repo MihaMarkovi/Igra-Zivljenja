@@ -43,6 +43,10 @@
                 <!--Gumb za osvežitev platna-->
                 <Button x:Name="ResetButton" Click="DrawTable_TextChanged" Margin="0 10 0 0" Content="Osveži"/>
                 
+                <!--Gumb za uvoz setupa -->
+                <Button Name="ImportButton" Click="ImportButton_Click" Margin="0 10 0 0" Content="Uvozi"/>
+                <TextBlock x:Name="ImportBox" Margin="0 10 0 2" HorizontalAlignment="Center" Text="None"/>
+                <Button Name="ExportButton" Click="ExportButton_Click" Margin="0 10 0 0" Content="Izvozi"/>
             </StackPanel>
             
             
