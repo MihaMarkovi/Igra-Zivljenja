@@ -15,14 +15,14 @@ namespace GameOfLife
         private const int space = 2;
 
         public bool[,]? cells;
-        int[,]? sosedi;
+        int[,]? neighbours;
 
         public void Main(Canvas MyCanvas, int rows, int columns)
         {
             DrawTable(MyCanvas, rows, columns, cells);
             //Thread.Sleep(1000);
-            sosedi = PreveriZivljenje(cells);
-            ZdruziSSosedi(ref cells, sosedi);
+            neighbours = CheckLives(cells);
+            CombineWithNeigbours(ref cells, neighbours);
             DrawTable(MyCanvas, rows, columns, cells);
             
         }
@@ -86,14 +86,8 @@ namespace GameOfLife
                     rectangle.MouseDown += Rectangle_MouseDown;
 
                     //pobarvaj kvadrat
-                    if (cells[i, j])
-                    {
-                        rectangle.Fill = Brushes.Red;
-                    }
-                    else
-                    {
-                        rectangle.Fill = Brushes.Green;
-                    }
+                    rectangle.Fill = Brushes.Green;
+
 
                     //dodaj ga na kanvas
                     MyCanvas.Children.Add(rectangle);
@@ -161,29 +155,29 @@ namespace GameOfLife
                 SwitchState(px, py);
         }
 
-        static void ZdruziSSosedi(ref bool[,] cells, int[,] sosedi)
+        static void CombineWithNeigbours(ref bool[,] cells, int[,] neighbours)
         {
             //Zamenjaj stanje celice, če je potrebno
-            for (int x = 0; x < sosedi.GetLength(0); x++)
+            for (int x = 0; x < neighbours.GetLength(0); x++)
             {
-                for (int y = 0; y < sosedi.GetLength(1); y++)
+                for (int y = 0; y < neighbours.GetLength(1); y++)
                 {
-                    if (sosedi[x, y] < 2 && cells[x, y])
+                    if (neighbours[x, y] < 2 && cells[x, y])
                         cells[x, y] = false;
-                    if ((sosedi[x, y] == 2 || sosedi[x, y] == 3) && cells[x, y])
+                    if ((neighbours[x, y] == 2 || neighbours[x, y] == 3) && cells[x, y])
                         cells[x, y] = true;
-                    if (sosedi[x, y] > 3 && cells[x, y])
+                    if (neighbours[x, y] > 3 && cells[x, y])
                         cells[x, y] = false;
-                    if (sosedi[x, y] == 3 && cells[x, y] == false)
+                    if (neighbours[x, y] == 3 && cells[x, y] == false)
                         cells[x, y] = true;
                 }
             }
         }
 
-        static int[,] PreveriZivljenje(bool[,] cells)
+        static int[,] CheckLives(bool[,] cells)
         {
-            int[,] sosedi = new int[cells.GetLength(0), cells.GetLength(1)];
-            int sosednjiZiv = 0;
+            int[,] neighbours = new int[cells.GetLength(0), cells.GetLength(1)];
+            int neighbourAlive = 0;
             for (int x = 0; x < cells.GetLength(0); x++)
             {
                 for (int y = 0; y < cells.GetLength(1); y++)
@@ -196,16 +190,16 @@ namespace GameOfLife
                         {
                             if ((i != 0 || j != 0) && x + i > -1 && y + j > -1 && x + i < cells.GetLength(0) && y + j < cells.GetLength(1))
                                 if (cells[x + i, y + j])
-                                    sosednjiZiv++;
+                                    neighbourAlive++;
                         }
                     }
 
-                    sosedi[x, y] = sosednjiZiv;
-                    sosednjiZiv = 0;
+                    neighbours[x, y] = neighbourAlive;
+                    neighbourAlive = 0;
                 }
             }
 
-            return sosedi;
+            return neighbours;
         }
 
     }

@@ -32,7 +32,7 @@ namespace GameOfLife
             tempRow = tempString.ToCharArray();
             foreach(char c in tempRow)
             {
-                if(c == ',')
+                if(c == ';')
                 {
                     columns++;
                 }
@@ -86,7 +86,7 @@ namespace GameOfLife
                         else
                             newFile.Write("0");
                     }
-                    newFile.Write(',');
+                    newFile.Write(';');
                     newFile.WriteLine();
                 }
                 newFile.Close();
