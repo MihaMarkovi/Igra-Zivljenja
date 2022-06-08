@@ -20,7 +20,10 @@ namespace GameOfLife
         {
             try
             {
-                animation.ClearTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
+                if (int.Parse(RowsText.Text) > 200 || int.Parse(ColumnText.Text) > 200)
+                    MessageBox.Show("Vnesli ste preveliko količino stolpcev ali vrstic.");
+                else
+                    animation.ClearTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text));
             }
             catch
             {
