@@ -77,6 +77,9 @@ namespace GameOfLife
             string file = fileControl.ImportFileName();
             if (file != "None")
             {
+                int[] columnsRows = fileControl.ReturnImportedRowColumns(file);
+                ColumnText.Text = columnsRows[0].ToString();
+                RowsText.Text = columnsRows[1].ToString();
                 animation.ImportTable(MyCanvas, int.Parse(RowsText.Text), int.Parse(ColumnText.Text), file);
             }
         }

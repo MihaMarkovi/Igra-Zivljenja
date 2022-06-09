@@ -16,23 +16,67 @@ namespace GameOfLife
 
         public bool[,]? cells;
         int[,]? neighbours;
+        bool[,]? changed;
 
         public void Main(Canvas MyCanvas, int rows, int columns)
         {
+            changed = new bool[columns, rows];
+            if (neighbours == null) neighbours = new int[columns, rows];
             DrawTable(MyCanvas, rows, columns, cells);
-            //Thread.Sleep(1000);
             neighbours = CheckLives(cells);
-            CombineWithNeigbours(ref cells, neighbours);
+            CombineWithNeigbours(ref cells, neighbours, ref changed);
             DrawTable(MyCanvas, rows, columns, cells);
             
         }
 
+        public void DrawTable(Canvas MyCanvas, int rows, int columns, bool[,] cells)
+        {
+           // MyCanvas.Children.Clear();
+
+            for (int j = 0; j < cells.GetLength(1); j++)
+            {
+                for (int i = 0; i < cells.GetLength(0); i++)
+                {
+                    //ustvari kvadrat
+                    Rectangle rectangle = new Rectangle
+                    {
+                        Height = size,
+                        Width = size,
+                    };
+
+                    rectangle.MouseDown += Rectangle_MouseDown;
+
+                    //pobarvaj kvadrat
+                    if (cells[i, j] && changed[i,j])
+                    {
+                        MyCanvas.Children.Remove(rectangle);
+                        rectangle.Fill = Brushes.Red;
+                        MyCanvas.Children.Add(rectangle);
+                    }
+                    else if (changed[i,j])
+                    {
+                        MyCanvas.Children.Remove(rectangle);
+                        rectangle.Fill = Brushes.Green;
+                        MyCanvas.Children.Add(rectangle);
+                    }
+
+                    //dodaj ga na kanvas
+                    
+
+                    //uredi presledke
+                    Canvas.SetLeft(rectangle, i * (size + space));
+                    Canvas.SetTop(rectangle, j * (size + space));
+                }
+            }
+        }
+
         public void ImportTable(Canvas MyCanvas, int rows, int columns, string path)
         {
-            MyCanvas.Children.Clear();
+            //MyCanvas.Children.Clear();
             cells = new bool[columns, rows];
+            changed = new bool[columns, rows];
 
-            fileControl.ReadImportedFile(path, ref cells);
+            fileControl.ReadImportedFile(path, ref cells, ref changed);
 
             for (int j = 0; j < cells.GetLength(1); j++)
             {
@@ -99,42 +143,7 @@ namespace GameOfLife
             }
         }
 
-        public void DrawTable(Canvas MyCanvas, int rows, int columns, bool[,] cells)
-        {
-            MyCanvas.Children.Clear();
 
-            for (int j = 0; j < cells.GetLength(1); j++)
-            {
-                for (int i = 0; i < cells.GetLength(0); i++)
-                {
-                    //ustvari kvadrat
-                    Rectangle rectangle = new Rectangle
-                    {
-                        Height = size,
-                        Width = size,
-                    };
-
-                    rectangle.MouseDown += Rectangle_MouseDown;
-
-                    //pobarvaj kvadrat
-                    if (cells[i,j])
-                    {
-                        rectangle.Fill = Brushes.Red;
-                    }
-                    else
-                    {
-                        rectangle.Fill = Brushes.Green;
-                    }
-
-                    //dodaj ga na kanvas
-                    MyCanvas.Children.Add(rectangle);
-
-                    //uredi presledke
-                    Canvas.SetLeft(rectangle, i * (size + space));
-                    Canvas.SetTop(rectangle, j * (size + space));
-                }
-            }
-        }
 
         public void SwitchState(int x, int y)
         {
@@ -155,7 +164,7 @@ namespace GameOfLife
                 SwitchState(px, py);
         }
 
-        static void CombineWithNeigbours(ref bool[,] cells, int[,] neighbours)
+        static void CombineWithNeigbours(ref bool[,] cells, int[,] neighbours, ref bool[,] changed)
         {
             //Zamenjaj stanje celice, če je potrebno
             for (int x = 0; x < neighbours.GetLength(0); x++)
@@ -163,13 +172,36 @@ namespace GameOfLife
                 for (int y = 0; y < neighbours.GetLength(1); y++)
                 {
                     if (neighbours[x, y] < 2 && cells[x, y])
+                    {
                         cells[x, y] = false;
-                    if ((neighbours[x, y] == 2 || neighbours[x, y] == 3) && cells[x, y])
-                        cells[x, y] = true;
+                        changed[x, y] = true;
+                    }
                     if (neighbours[x, y] > 3 && cells[x, y])
+                    {
                         cells[x, y] = false;
+                        changed[x, y] = true;
+                    }
                     if (neighbours[x, y] == 3 && cells[x, y] == false)
+                    {
                         cells[x, y] = true;
+                        changed[x, y] = true;
+                    }
+                }
+            }
+        }
+
+        public void CheckChanged(ref bool[,] changed, int[,] neighbours)
+        {
+            for(int x = 0; x < changed.GetLength(0); x++)
+            {
+                for(int y= 0; y < changed.GetLength(1); y++)
+                {
+                    if (neighbours[x, y] < 2 && cells[x, y])
+                        changed[x, y] = true;
+                    if (neighbours[x, y] > 3 && cells[x, y])
+                        changed[x, y] = true;
+                    if(neighbours[x, y] == 3 && cells[x, y] == false)
+                        changed[x, y] = true;
                 }
             }
         }

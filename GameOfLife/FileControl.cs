@@ -21,7 +21,40 @@ namespace GameOfLife
             return "None";
         }
 
-        public void ReadImportedFile(string path, ref bool[,] cells)
+        public int[] ReturnImportedRowColumns(string path)
+        {
+            char[] tempRow;
+            int columns = 0, rows = 0;
+
+            //preštej število vrstic
+            StreamReader sr = File.OpenText(path);
+            string tempString = sr.ReadToEnd();
+            tempRow = tempString.ToCharArray();
+            foreach (char c in tempRow)
+            {
+                if (c == ';')
+                {
+                    columns++;
+                }
+            }
+            sr.Close();
+
+            //preštej število stolpcev
+            sr = File.OpenText(path);
+            tempString = sr.ReadLine();
+            tempRow = tempString.ToCharArray();
+            foreach (char c in tempRow)
+            {
+                if (c == '1' || c == '0')
+                    rows++;
+            }
+            sr.Close();
+
+            int[] result = { columns, rows };
+            return result;
+        }
+
+        public void ReadImportedFile(string path, ref bool[,] cells, ref bool[,] changed)
         {
             char[] tempRow;
             int columns = 0, rows = 0;
@@ -50,6 +83,7 @@ namespace GameOfLife
             }
             sr.Close();
 
+            changed = new bool[columns, rows];
             cells = new bool[columns, rows];
 
             sr = File.OpenText(path);

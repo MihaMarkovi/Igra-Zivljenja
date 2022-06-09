@@ -6,4 +6,5 @@ TODO:
 - ~~implementiraj osnovno funkcionalnost igre~~
 - ~~naredi hitrost nastavljivo~~
 - ~~implementiraj možnost uvoza/izvoza stanja celic~~
-- optimiziraj za večje količine celic (100+)
+- ~~optimiziraj za večje količine celic (100+)~~
+- izboljšaj algoritem (chunks)
