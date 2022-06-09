@@ -31,8 +31,6 @@ namespace GameOfLife
 
         public void DrawTable(Canvas MyCanvas, int rows, int columns, bool[,] cells)
         {
-           // MyCanvas.Children.Clear();
-
             for (int j = 0; j < cells.GetLength(1); j++)
             {
                 for (int i = 0; i < cells.GetLength(0); i++)
@@ -72,7 +70,7 @@ namespace GameOfLife
 
         public void ImportTable(Canvas MyCanvas, int rows, int columns, string path)
         {
-            //MyCanvas.Children.Clear();
+            MyCanvas.Children.Clear();
             cells = new bool[columns, rows];
             changed = new bool[columns, rows];
 
