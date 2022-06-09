@@ -43,18 +43,21 @@ namespace GameOfLife
                     switch (FPS.SelectedIndex.ToString())
                     {
                         case "0":
-                            x = 100;
+                            x = 20;
                             break;
                         case "1":
-                            x = 200;
+                            x = 100;
                             break;
                         case "2":
-                            x = 1000;
+                            x = 200;
                             break;
                         case "3":
-                            x = 2000;
+                            x = 1000;
                             break;
                         case "4":
+                            x = 2000;
+                            break;
+                        case "5":
                             x = 4000;
                             break;
                     }
