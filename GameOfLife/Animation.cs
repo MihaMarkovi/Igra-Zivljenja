@@ -47,15 +47,15 @@ namespace GameOfLife
                     //pobarvaj kvadrat
                     if (cells[i, j] && changed[i,j])
                     {
-                        MyCanvas.Children.Remove(rectangle);
+                        MyCanvas.Children.Remove(MyCanvas.Children[j * columns + i]);
                         rectangle.Fill = Brushes.Red;
-                        MyCanvas.Children.Add(rectangle);
+                        MyCanvas.Children.Insert(j * columns + i, rectangle);
                     }
                     else if (changed[i,j])
                     {
-                        MyCanvas.Children.Remove(rectangle);
+                        MyCanvas.Children.Remove(MyCanvas.Children[j * columns + i]);
                         rectangle.Fill = Brushes.Green;
-                        MyCanvas.Children.Add(rectangle);
+                        MyCanvas.Children.Insert(j * columns + i, rectangle);
                     }
 
                     //dodaj ga na kanvas
