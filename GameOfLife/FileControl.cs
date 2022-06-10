@@ -94,14 +94,12 @@ namespace GameOfLife
                 for(int j = 0; j < tempRow.Length; j++)
                 {
                     if (tempRow[j] == '0')
-                        cells[j, i] = false;
+                        cells[i, j] = false;
                     else if (tempRow[j] == '1')
-                        cells[j, i] = true;
+                        cells[i, j] = true;
                 }
-
             }
         }
-
         public void ExportFile(bool[,] grid)
         {
 
@@ -115,7 +113,7 @@ namespace GameOfLife
                 {
                     for (int j = 0; j < grid.GetLength(1); j++)
                     {
-                        if(grid[j,i] == true )
+                        if(grid[i,j] == true )
                             newFile.Write("1");
                         else
                             newFile.Write("0");
